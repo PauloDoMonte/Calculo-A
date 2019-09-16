@@ -10,23 +10,25 @@ class App:
 	def __init__(self, Parent):
 		
 		self.Window_1 = Frame(Parent)
-		self.Window_1.pack()
+		self.Window_1.place(x = 0,y = 0,width = 600, height = 20)
 		self.Window_2 = Frame(Parent)
-		self.Window_2.pack()
+		self.Window_2.place(x = 0, y = 20,width = 600, height = 200)
 
-		self.lab_1 = Label(self.Window_1, text="Função ")
-		self.lab_1.pack(side=LEFT)
+		# Window_1
+		self.lab_1 = Label(self.Window_1, text="Função: ")
+		self.lab_1.place(x = 260,y = 0)
 		self.ent_1 = Entry(self.Window_1, bd = 5)
-		self.ent_1.pack(side=RIGHT)
+		self.ent_1.place(x = 310,y = 0,width=200)
 
+		# Window_2
 		self.btn_1 = Button(self.Window_2, text="Derivada", command = self.derivada,cursor="circle")
-		self.btn_1.pack(side=LEFT)
+		self.btn_1.place(x = 0, y = 15)
 		self.btn_2 = Button(self.Window_2, text="Integral Indefinida", command = self.integral_indefinida,cursor="circle")
-		self.btn_2.pack(side=LEFT)
+		self.btn_2.place(x = 0, y = 60)
 		self.btn_3 = Button(self.Window_2, text="Integral Definida", command = self.integral_definida,cursor="circle")
-		self.btn_3.pack(side=LEFT)
+		self.btn_3.place(x = 0, y = 105)
 		self.btn_4 = Button(self.Window_2, text="Reta Tangente", command = self.reta_tangente,cursor="circle")
-		self.btn_4.pack(side=LEFT)
+		self.btn_4.place(x = 0, y = 150)
 
 
 
@@ -35,10 +37,8 @@ class App:
 		f_ = self.ent_1.get()
 		print("Derivada de ordem",1,":",diff(f_,x,1))
 
-		self.Window_derivada = Toplevel()
-			
-		self.lab_2 = Label(self.Window_derivada, text=("Derivada de ordem",1,":",diff(f_,x,1)))
-		self.lab_2.pack()
+		self.lab_2 = Label(self.Window_2, text=("Derivada de ordem",1,":",diff(f_,x,1)))
+		self.lab_2.place(x = 150, y = 15)
 
 		plot(f_, diff(f_,x,1), title="Função e sua derivada")
 
