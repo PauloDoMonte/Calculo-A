@@ -1,61 +1,71 @@
 from __future__ import division
 from tkinter import *
-from sympy import symbols, cos, sin, diff, init_printing
+from sympy import symbols, cos, sin, diff, init_printing, integrate, sympify, Lambda
 from sympy.plotting import plot
 
 init_printing()
 x,y = symbols('x y')
 
-class App:
+class App():
+
 	def __init__(self, Parent):
 		
-		self.Window_1 = Frame(Parent)
-		self.Window_1.place(x = 0,y = 0,width = 600, height = 20)
-		self.Window_2 = Frame(Parent)
-		self.Window_2.place(x = 0, y = 20,width = 600, height = 200)
+		self.Window_Reta_Tangente = Frame(Parent)
+		self.Window_Reta_Tangente.place(x = 0,y = 0,width = 200, height = 300)
 
-		# Window_1
-		self.lab_1 = Label(self.Window_1, text="Função: ")
-		self.lab_1.place(x = 260,y = 0)
-		self.ent_1 = Entry(self.Window_1, bd = 5)
-		self.ent_1.place(x = 310,y = 0,width=200)
+		self.Window_Derivada = Frame(Parent)
+		self.Window_Derivada.place(x=0, y=130,width=200, height=300)
 
-		# Window_2
-		self.btn_1 = Button(self.Window_2, text="Derivada", command = self.derivada,cursor="circle")
-		self.btn_1.place(x = 0, y = 15)
-		self.btn_2 = Button(self.Window_2, text="Integral Indefinida", command = self.integral_indefinida,cursor="circle")
-		self.btn_2.place(x = 0, y = 60)
-		self.btn_3 = Button(self.Window_2, text="Integral Definida", command = self.integral_definida,cursor="circle")
-		self.btn_3.place(x = 0, y = 105)
-		self.btn_4 = Button(self.Window_2, text="Reta Tangente", command = self.reta_tangente,cursor="circle")
-		self.btn_4.place(x = 0, y = 150)
+					# Reta Tangente
+		self.lab_1 = Label(self.Window_Reta_Tangente, text="Reta Tangente")
+		self.lab_2 = Label(self.Window_Reta_Tangente, text="Função: ")
+		self.lab_3 = Label(self.Window_Reta_Tangente, text="Ponto X0: ")
+		self.ent_1 = Entry(self.Window_Reta_Tangente, bd=5)
+		self.ent_2 = Entry(self.Window_Reta_Tangente, bd=5)
+		self.btn_1 = Button(self.Window_Reta_Tangente, text="Calcular", command=self.reta_tangente)
 
+		self.lab_1.place(x=20,y=0)
+		self.lab_2.place(x=0,y=25)
+		self.lab_3.place(x=0,y=50)
+		self.ent_1.place(x=60,y=25)
+		self.ent_2.place(x=60,y=50)
+		self.btn_1.place(x=0,y=90)
 
+					# Derivada
+		self.lab_4 = Label(self.Window_Derivada, text="Derivada")
+		self.lab_5 = Label(self.Window_Derivada, text="Função: ")
+		self.lab_6 = Label(self.Window_Derivada, text="Ordem: ")
+		self.ent_3 = Entry(self.Window_Derivada, bd=5)
+		self.ent_4 = Entry(self.Window_Derivada, bd=5)
+		self.btn_2 = Button(self.Window_Derivada, text="Calcular", command=self.derivada)
 
+		self.lab_4.place(x=20,y=0)
+		self.lab_5.place(x=0,y=26)
+		self.lab_6.place(x=0,y=55)
+		self.ent_3.place(x=60,y=20)
+		self.ent_4.place(x=60,y=50)
+		self.btn_2.place(x=0,y=90)
 
-	def derivada(self):
-		f_ = self.ent_1.get()
-		print("Derivada de ordem",1,":",diff(f_,x,1))
+					# Integral Indefinida
 
-		self.lab_2 = Label(self.Window_2, text=("Derivada de ordem",1,":",diff(f_,x,1)))
-		self.lab_2.place(x = 150, y = 15)
-
-		plot(f_, diff(f_,x,1), title="Função e sua derivada")
-
-	def integral_indefinida(self):
-		f_ = self.ent_1.get()
-		print("Integral indefinida da funcao:",integrate(f_,x),"+ C")
-
-		self.Window_int_indef = Toplevel()
-
-		self.lab_3 = Label(self.Window_int_indef, text=("Integral indefinida da funcao:",integrate(f_,x),"+ C"))
-		self.lab_3.pack()
-
-	def integral_definida(self):
-		pass
+					# Integral Definida
 
 	def reta_tangente(self):
-		pass
+		funcao = sympify(self.ent_1.get())
+		f = Lambda(x, funcao)
+		x0 = int(self.ent_2.get())
+		equacao_da_reta = (diff(f(x),x).subs(x,x0))*(x-x0) + f(x0)
+		print (equacao_da_reta)
+		self.lab_8 = Label(self.Window_Reta_Tangente, text=equacao_da_reta)
+		self.lab_8.place(x=55,y=92)
+
+
+	def derivada(self):		
+		funcao = self.ent_3.get()
+		ordem = self.ent_4.get()
+		print(diff(funcao,x,ordem))
+		self.lab_7 = Label(self.Window_Derivada, text = (diff(funcao,x,ordem)))
+		self.lab_7.place(x=60,y=90)
 
 root = Tk()
 
